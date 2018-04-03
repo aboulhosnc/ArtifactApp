@@ -51,13 +51,17 @@ public class Signup extends Activity implements View.OnClickListener {
         String password = ETPass.getText().toString().trim();
         String passwordV = ETPassV.getText().toString().trim();
 
-        if(TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+        if(TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) ){
             Toast.makeText(this, "Please Fill In All Fields", Toast.LENGTH_LONG).show();
             return;
         }
+        if(!TextUtils.equals(password, passwordV)) {
+            Toast.makeText(this,"Please make sure passwords match",Toast.LENGTH_LONG).show();
+            return;
+        }
 
-        //progressDialog.setMessage("Registering User...");
-        //progressDialog.show();
+        progressDialog.setMessage("Registering User...");
+        progressDialog.show();
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -65,10 +69,11 @@ public class Signup extends Activity implements View.OnClickListener {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(Signup.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(Signup.this, Login_Page.class);
+                            Intent i = new Intent(Signup.this, LoginActivity.class);
                             startActivity(i);
                         }else{
                             Toast.makeText(Signup.this, "Failed To Register!", Toast.LENGTH_SHORT).show();
+                            progressDialog.cancel();
 
                         }
                     }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="223dp"
+        android:layout_height="113dp"
+        android:layout_marginLeft="80dp"
+        android:background="@drawable/userlogin"
+        android:onClick="imageButtonClicked" />
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/editshape"
+        android:hint="Enter email "
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/loginEmail"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/editshape"
+        android:hint="Enter Password "
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/loginPassword"/>
+
+
+    <Button
+        android:id="@+id/BuserLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onUserLoginClick"
+        android:text="Login" />
+
+    <Button
+        android:id="@+id/BtestLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="testClick"
+        android:text="test" />
+</LinearLayout>

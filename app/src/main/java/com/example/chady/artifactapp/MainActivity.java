@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     {
         if(v.getId() == R.id.BLogin)
         {
-            Intent i = new Intent(MainActivity.this, Login_Page.class);
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
 
         }

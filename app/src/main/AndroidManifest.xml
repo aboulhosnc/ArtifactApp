@@ -16,15 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login_Page">
-        </activity>
-        <activity android:name=".Signup">
-        </activity>
-        <activity android:name=".HomeScreen">
-        </activity>
-        <activity android:name=".ArtifactsPage">
-        </activity>
-
+        <activity android:name=".Signup" />
+        <activity android:name=".HomeScreen" />
+        <activity android:name=".ArtifactsPage" />
+        <activity
+            android:name=".ArtifactsMainPage"
+            android:label="@string/title_activity_artifacts_main_page"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AddArtifact" />
+        <activity android:name=".LoginActivity" />
     </application>
 
 </manifest>

@@ -29,7 +29,7 @@ public class HomeScreen extends Activity {
 
 
     public void onArtifactsClick(View view) {
-        Intent i = new Intent(HomeScreen.this, ArtifactsPage.class);
+        Intent i = new Intent(HomeScreen.this, ArtifactsMainPage.class);
         startActivity(i);
 
     }
@@ -63,6 +63,6 @@ public class HomeScreen extends Activity {
     }
 
     public void onLogoutClick(View view) {
-        startActivity(new Intent(HomeScreen.this, Login_Page.class));
+        startActivity(new Intent(HomeScreen.this, LoginActivity.class));
     }
 }

@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">ArtifactApp</string>
+    <string name="title_activity_artifacts_main_page">ArtifactsMainPage</string>
+    <string name="select_tool_type">Select Tool Type</string>
+    <string-array name="tool_types">
+        <item>Weapons</item>
+        <item>Tools</item>
+        <item>Cooking Utensils</item>
+        <item>Art</item>
+        <item>Clothing</item>
+        <item>Other</item>
+
+    </string-array>
 </resources>
