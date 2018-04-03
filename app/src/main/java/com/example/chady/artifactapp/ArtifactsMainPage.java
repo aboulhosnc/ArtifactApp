@@ -80,6 +80,8 @@ public class ArtifactsMainPage extends AppCompatActivity {
             protected void populateViewHolder(ArtifactViewHolder viewHolder, Artifact model, int position) {
 
                 viewHolder.setTitle(model.getTitle());
+                viewHolder.setToolType(model.getToolType());
+
                 viewHolder.setPrice(model.getPrice());
                 viewHolder.setImage(getApplicationContext(),model.getImage());
 
@@ -113,6 +115,11 @@ public class ArtifactsMainPage extends AppCompatActivity {
         public void setImage(Context ctx, String image){
             ImageView post_image = (ImageView) itemView.findViewById(R.id.post_image);
             Picasso.get().load(image).into(post_image);
+        }
+
+        public void setToolType(String toolType){
+            TextView post_title = (TextView) itemView.findViewById(R.id.textToolType);
+            post_title.setText(toolType);
         }
 
     }

@@ -36,6 +36,7 @@ public class Artifact {
     }
 
     public void setTitle(String title) {
+
         this.title = title;
     }
 
@@ -63,7 +64,7 @@ public class Artifact {
 
     public String getToolType() {
         return toolType;
-    }
+}
 
     public void setToolType () {
 

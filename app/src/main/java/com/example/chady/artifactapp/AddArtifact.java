@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -50,15 +51,16 @@ public class AddArtifact extends AppCompatActivity {
 
         // drop down list for Tool Types
        spinner = (Spinner)findViewById(R.id.spinner);
-       /*
+
         adapter = ArrayAdapter.createFromResource(this,R.array.tool_types,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getBaseContext(),parent.getItemIdAtPosition(position)+ " selected",Toast.LENGTH_LONG).show();
+
                 String toolValue = parent.getItemAtPosition(position).toString();
+                Toast.makeText(parent.getContext(),toolValue+ " selected",Toast.LENGTH_LONG).show();
 
 
             }
@@ -68,7 +70,7 @@ public class AddArtifact extends AppCompatActivity {
 
             }
         });
-        */
+
 
 
     }
@@ -102,7 +104,7 @@ public class AddArtifact extends AppCompatActivity {
         final String costValue = editPrice.getText().toString().trim();
         final String locationValue = editLocation.getText().toString().trim();
         final int priceValue =  Integer.parseInt(costValue);
-        //final String toolValue =  spinner.toString().trim();
+        final String toolValue =  spinner.getSelectedItem().toString();
 
 
         if(!TextUtils.isEmpty(titleValue) && !TextUtils.isEmpty(descValue)){
@@ -118,10 +120,11 @@ public class AddArtifact extends AppCompatActivity {
                     newPost.child("title").setValue(titleValue);
                     newPost.child("description").setValue(descValue);
                     newPost.child("image").setValue(downloadurl.toString());
-                    newPost.child("cost").setValue(priceValue);
-                   // newPost.child("tool type").setValue(toolValue);
+                    newPost.child("price").setValue(priceValue);
+                    newPost.child("toolType").setValue(toolValue);
                     newPost.child("location").setValue(locationValue);
                     Toast.makeText(AddArtifact.this,"Upload Complete",Toast.LENGTH_LONG).show();
+
 
                     Intent i = new Intent(AddArtifact.this, ArtifactsMainPage.class);
                     startActivity(i);
@@ -132,4 +135,5 @@ public class AddArtifact extends AppCompatActivity {
         }
 
     }
+
 }
