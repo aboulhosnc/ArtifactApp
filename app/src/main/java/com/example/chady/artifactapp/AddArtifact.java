@@ -135,7 +135,7 @@ public class AddArtifact extends AppCompatActivity {
         }
 
     }
-    public void cancelButtonClicked() {
+    public void cancelButtonClicked(View view) {
         editArtifactName.getText().clear();
          editDesc.getText().clear();
          editPrice.getText().clear();
