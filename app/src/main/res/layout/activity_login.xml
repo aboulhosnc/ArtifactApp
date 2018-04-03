@@ -45,10 +45,5 @@
         android:onClick="onUserLoginClick"
         android:text="Login" />
 
-    <Button
-        android:id="@+id/BtestLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="testClick"
-        android:text="test" />
+
 </LinearLayout>

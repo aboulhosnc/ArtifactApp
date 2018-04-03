@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 public class AddArtifactTest {
 
     @Rule
-    //public ActivityTestRule<AddArtifact> mActivityTestRule = new
+    //public ActivityTestRule<AddArtifact> mActivityTestRule = new ActivityTestRule<MainActivity>()
 
     @Before
     public void setUp() throws Exception {

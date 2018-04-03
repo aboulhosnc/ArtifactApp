@@ -59,6 +59,12 @@ public class Signup extends Activity implements View.OnClickListener {
             Toast.makeText(this,"Please make sure passwords match",Toast.LENGTH_LONG).show();
             return;
         }
+        if(password.length() < 6 ){
+            Toast.makeText(this,"Password must be 6 characters long",Toast.LENGTH_LONG).show();
+            return;
+
+        }
+
 
         progressDialog.setMessage("Registering User...");
         progressDialog.show();

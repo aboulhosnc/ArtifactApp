@@ -78,7 +78,10 @@ public class LoginActivity extends Activity {
                         checkUserExists();
                         Intent loginIntent = new Intent(LoginActivity.this, HomeScreen.class);
                         startActivity(loginIntent);
+                        progressDialog.cancel();
                         Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
+                        clearScreen();
+
 
                     }
                     else {
@@ -95,9 +98,9 @@ public class LoginActivity extends Activity {
 
     }
 
-    public void testCLick () {
-        Intent i = new Intent(LoginActivity.this, HomeScreen.class);
-        startActivity(i);
+    public void clearScreen () {
+          loginEmail.getText().clear();
+          loginPassword.getText().clear();
     }
 
     public void checkUserExists() {
