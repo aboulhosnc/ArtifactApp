@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,7 +24,7 @@ public class AddArtifact extends AppCompatActivity {
     private static final int GALLERY_REQUEST = 2;
     private Uri uri = null; // store image value
     private ImageButton imageButton; // create imagebutton
-    private EditText editName;
+    private EditText editArtifactName;
     private EditText editDesc;
     private EditText editPrice;
     private EditText editLocation;
@@ -41,16 +40,17 @@ public class AddArtifact extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_artifact);
-        editName =(EditText) findViewById(R.id.editName);
+        editArtifactName =(EditText) findViewById(R.id.editArtifactName);
         editDesc = (EditText) findViewById(R.id.editDesc);
         editPrice = (EditText) findViewById(R.id.editPrice);
         editLocation = (EditText) findViewById(R.id.editLocation);
         // add reference for firebase initialiance storage reference
         storageReference = FirebaseStorage.getInstance().getReference();
-        databaseReference = firebaseDatabase.getInstance().getReference().child("ArtifactApp");
+        databaseReference = firebaseDatabase.getInstance().getReference().child("Artifacts");
 
         // drop down list for Tool Types
-        spinner = (Spinner)findViewById(R.id.spinner);
+       spinner = (Spinner)findViewById(R.id.spinner);
+       /*
         adapter = ArrayAdapter.createFromResource(this,R.array.tool_types,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -68,6 +68,8 @@ public class AddArtifact extends AppCompatActivity {
 
             }
         });
+        */
+
 
     }
 
@@ -95,12 +97,12 @@ public class AddArtifact extends AppCompatActivity {
 
     public void addArtifactButtonClicked (View v){
 
-        final String titleValue = editName.getText().toString().trim();
+        final String titleValue = editArtifactName.getText().toString().trim();
         final String descValue = editDesc.getText().toString().trim();
         final String costValue = editPrice.getText().toString().trim();
         final String locationValue = editLocation.getText().toString().trim();
         final int priceValue =  Integer.parseInt(costValue);
-        final String toolValue =  spinner.toString().trim();
+        //final String toolValue =  spinner.toString().trim();
 
 
         if(!TextUtils.isEmpty(titleValue) && !TextUtils.isEmpty(descValue)){
@@ -117,7 +119,7 @@ public class AddArtifact extends AppCompatActivity {
                     newPost.child("description").setValue(descValue);
                     newPost.child("image").setValue(downloadurl.toString());
                     newPost.child("cost").setValue(priceValue);
-                    newPost.child("tool type").setValue(toolValue);
+                   // newPost.child("tool type").setValue(toolValue);
                     newPost.child("location").setValue(locationValue);
                     Toast.makeText(AddArtifact.this,"Upload Complete",Toast.LENGTH_LONG).show();
 

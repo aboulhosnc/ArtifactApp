@@ -18,7 +18,6 @@
         </activity>
         <activity android:name=".Signup" />
         <activity android:name=".HomeScreen" />
-        <activity android:name=".ArtifactsPage" />
         <activity
             android:name=".ArtifactsMainPage"
             android:label="@string/title_activity_artifacts_main_page"

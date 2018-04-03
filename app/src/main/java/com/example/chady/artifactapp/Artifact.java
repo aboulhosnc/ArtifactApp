@@ -6,11 +6,11 @@ package com.example.chady.artifactapp;
 
 public class Artifact {
 
-    private String artifactName;
+    private String title;
     private String description;
     private String  image;
     private String  toolType;
-    private int price = 0;
+    private int price;
 
 
 
@@ -18,9 +18,9 @@ public class Artifact {
 
     public Artifact () {}
 
-    public Artifact(String artifactName, String desc, String image, String toolType, int price) {
+    public Artifact(String title, String desc, String image, String toolType, int price) {
 
-        this.artifactName = artifactName;
+        this.title = title;
         this.image = image;
         this.description = desc;
         this.toolType = toolType;
@@ -30,13 +30,13 @@ public class Artifact {
 
     // artifact name
 
-    public String getArtifactName() {
+    public String getTitle() {
 
-        return artifactName;
+        return title;
     }
 
-    public void setArtifactName(String artifactName) {
-        this.artifactName = artifactName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     //description
@@ -66,10 +66,12 @@ public class Artifact {
     }
 
     public void setToolType () {
+
         this.toolType = toolType;
     }
 
     public int getPrice() {
+
         return price;
     }
 

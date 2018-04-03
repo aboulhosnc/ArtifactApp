@@ -79,7 +79,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
             @Override
             protected void populateViewHolder(ArtifactViewHolder viewHolder, Artifact model, int position) {
 
-                viewHolder.setName(model.getArtifactName());
+                viewHolder.setTitle(model.getTitle());
                 viewHolder.setPrice(model.getPrice());
                 viewHolder.setImage(getApplicationContext(),model.getImage());
 
@@ -101,13 +101,13 @@ public class ArtifactsMainPage extends AppCompatActivity {
             View mView = itemView;
         }
 
-        public void setName(String name){
-            TextView post_name = (TextView) itemView.findViewById(R.id.artifactName);
-            post_name.setText(name);
+        public void setTitle(String title){
+            TextView post_title = (TextView) itemView.findViewById(R.id.textTitle);
+            post_title.setText(title);
         }
         public void setPrice(int price){
-            TextView post_price = (TextView) itemView.findViewById(R.id.cost);
-            post_price.setText(price);
+            TextView post_price = (TextView) itemView.findViewById(R.id.artifactPrice);
+            post_price.setText(String.valueOf(price));
         }
 
         public void setImage(Context ctx, String image){
