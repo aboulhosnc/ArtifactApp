@@ -77,9 +77,13 @@ public class Signup extends Activity implements View.OnClickListener {
                             Toast.makeText(Signup.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(Signup.this, LoginActivity.class);
                             startActivity(i);
+                            clearScreen();
+
+
+
                         }else{
                             Toast.makeText(Signup.this, "Failed To Register!", Toast.LENGTH_SHORT).show();
-                            progressDialog.cancel();
+
 
                         }
                     }
@@ -96,5 +100,13 @@ public class Signup extends Activity implements View.OnClickListener {
         if(view == registerButton){
             registerUser();
         }
+    }
+    public void clearScreen () {
+        ETName.getText().clear();
+         ETEmail.getText().clear();
+         ETPass.getText().clear();
+         ETPassV.getText().clear();
+        progressDialog.cancel();
+
     }
 }

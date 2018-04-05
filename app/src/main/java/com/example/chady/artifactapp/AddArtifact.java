@@ -124,6 +124,8 @@ public class AddArtifact extends AppCompatActivity {
                     newPost.child("toolType").setValue(toolValue);
                     newPost.child("location").setValue(locationValue);
                     Toast.makeText(AddArtifact.this,"Upload Complete",Toast.LENGTH_LONG).show();
+                    clearScreen();
+
 
 
                     Intent i = new Intent(AddArtifact.this, ArtifactsMainPage.class);
@@ -136,11 +138,14 @@ public class AddArtifact extends AppCompatActivity {
 
     }
     public void cancelButtonClicked(View view) {
-        editArtifactName.getText().clear();
-         editDesc.getText().clear();
-         editPrice.getText().clear();
-         editLocation.getText().clear();
+       clearScreen();
 
+    }
+    public void clearScreen () {
+        editArtifactName.getText().clear();
+        editDesc.getText().clear();
+        editPrice.getText().clear();
+        editLocation.getText().clear();
     }
 
 }
