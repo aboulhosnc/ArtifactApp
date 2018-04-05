@@ -87,6 +87,7 @@ public class LoginActivity extends Activity {
                     else {
                         Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
                         progressDialog.cancel();
+                        clearScreen();
 
                     }
 
