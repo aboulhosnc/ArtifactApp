@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -19,13 +18,23 @@ public class HomeScreen extends Activity {
 
     private FirebaseAuth mAuth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homescreen);
 
         mAuth = FirebaseAuth.getInstance();
+
+       /*
+       Need listener?
+       if(mAuth.getCurrentUser() == null){
+            startActivity(new Intent(HomeScreen.this, LoginActivity.class));
+        }
+        */
     }
+
+
 
 
     public void onArtifactsClick(View view) {
@@ -35,7 +44,9 @@ public class HomeScreen extends Activity {
     }
 
     public void onCollectorsClick(View view) {
-        System.out.println("Button Clicked");
+
+        Intent i = new Intent(HomeScreen.this, Collectors.class);
+        startActivity(i);
     }
 
     public void onProfileClick(View view) {

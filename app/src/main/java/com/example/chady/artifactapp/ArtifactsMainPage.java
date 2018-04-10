@@ -38,7 +38,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
         mArtifactList = (RecyclerView) findViewById(R.id.artifact_list);
         mArtifactList.setHasFixedSize(true);
         mArtifactList.setLayoutManager(new LinearLayoutManager(this));
-        // finds reference in database called InstaApp
+        // finds reference in database called Artifacts
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Artifacts");
         mAuth = FirebaseAuth.getInstance();
 

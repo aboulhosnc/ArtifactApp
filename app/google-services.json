@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1061501649640-u4he9a5huegr2osro1bpsnkj361fr2jc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chady.artifactapp",
+            "certificate_hash": "d80bcd3bf9cc5461be99200f2670a0a972436603"
+          }
+        },
+        {
           "client_id": "1061501649640-qr2bchskalvq7bp9dr8ettbsi6likh2h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
