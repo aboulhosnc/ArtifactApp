@@ -30,5 +30,11 @@
         android:layout_height="wrap_content"
         android:onClick="onSignUpClick"
         android:text="Sign Up" />
+    <Button
+        android:id="@+id/BSetupActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onSetupClick"
+        android:text="Test activity" />
 </LinearLayout>
 

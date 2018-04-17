@@ -147,5 +147,12 @@ public class ArtifactsMainPage extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    public void artifactPageClicked (View view) {
+
+        Intent artifactView = new Intent(ArtifactsMainPage.this, ArtifactViewPage.class);
+        startActivity(artifactView);
+
+    }
+
 
 }

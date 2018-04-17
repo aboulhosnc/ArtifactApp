@@ -13,10 +13,14 @@
         android:layout_margin="10dp"
         >
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/post_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:id="@+id/post_image"/>
+            android:backgroundTint="@color/cardview_light_background"
+            android:elevation="0dp"
+            android:onClick="artifactPageClicked"
+            android:visibility="visible" />
 
         <TextView
             android:layout_width="match_parent"

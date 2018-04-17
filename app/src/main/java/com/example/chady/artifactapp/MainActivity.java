@@ -41,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+    public void onSetupClick (View view) {
+        Intent i = new Intent(MainActivity.this, SetupActivity.class);
+        startActivity(i);
+    }
 
 
 }

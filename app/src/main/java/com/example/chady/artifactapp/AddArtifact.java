@@ -19,11 +19,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class AddArtifact extends AppCompatActivity {
 
     private static final int GALLERY_REQUEST = 2;
     private Uri uri = null; // store image value
+    private Uri mImageUri = null; //cropped image
     private ImageButton imageButton; // create imagebutton
     private EditText editArtifactName;
     private EditText editDesc;
@@ -40,6 +43,7 @@ public class AddArtifact extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_add_artifact);
         editArtifactName =(EditText) findViewById(R.id.editArtifactName);
         editDesc = (EditText) findViewById(R.id.editDesc);
@@ -48,9 +52,10 @@ public class AddArtifact extends AppCompatActivity {
         // add reference for firebase initialiance storage reference
         storageReference = FirebaseStorage.getInstance().getReference();
         databaseReference = firebaseDatabase.getInstance().getReference().child("Artifacts");
+        imageButton = (ImageButton) findViewById(R.id.imageButton);
 
         // drop down list for Tool Types
-       spinner = (Spinner)findViewById(R.id.spinner);
+        spinner = (Spinner)findViewById(R.id.spinner);
 
         adapter = ArrayAdapter.createFromResource(this,R.array.tool_types,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -81,7 +86,7 @@ public class AddArtifact extends AppCompatActivity {
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent,GALLERY_REQUEST);
     }
-
+/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -89,13 +94,40 @@ public class AddArtifact extends AppCompatActivity {
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK)
         {
             uri = data.getData();
-            imageButton = (ImageButton) findViewById(R.id.imageButton);
+            imageButton.setBackgroundResource(0);
+
             imageButton.setImageURI(uri); //replaces stock image with image of choice
 
 
 
         }
     }
+    */
+        @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
+
+             uri = data.getData();
+            CropImage.activity(uri)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1,1)
+                    .start(this);
+
+        }
+        if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if(resultCode == RESULT_OK) {
+            imageButton.setBackgroundResource(0);
+                 mImageUri = result.getUri();
+                imageButton.setImageURI(mImageUri);
+            }
+            else if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
+    }
+
 
     public void addArtifactButtonClicked (View v){
 
@@ -108,8 +140,8 @@ public class AddArtifact extends AppCompatActivity {
 
 
         if(!TextUtils.isEmpty(titleValue) && !TextUtils.isEmpty(descValue)){
-            StorageReference filePath = storageReference.child("PostImage").child(uri.getLastPathSegment());
-            filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            StorageReference filePath = storageReference.child("PostImage").child(mImageUri.getLastPathSegment());
+            filePath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
@@ -138,7 +170,7 @@ public class AddArtifact extends AppCompatActivity {
 
     }
     public void cancelButtonClicked(View view) {
-       clearScreen();
+        clearScreen();
 
     }
     public void clearScreen () {
@@ -146,6 +178,7 @@ public class AddArtifact extends AppCompatActivity {
         editDesc.getText().clear();
         editPrice.getText().clear();
         editLocation.getText().clear();
+        imageButton.setImageResource(R.drawable.image_download_icon);
     }
 
 }

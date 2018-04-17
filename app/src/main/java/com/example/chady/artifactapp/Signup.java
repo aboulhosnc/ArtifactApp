@@ -42,6 +42,8 @@ public class Signup extends Activity implements View.OnClickListener {
 
         mAuth = FirebaseAuth.getInstance();
         mData = FirebaseDatabase.getInstance();
+
+        //database for user info
         ref = mData.getReference("users");
 
         registerButton = (Button) findViewById(R.id.BuserSignUp);
@@ -90,7 +92,7 @@ public class Signup extends Activity implements View.OnClickListener {
                             ref.child(uID).setValue(newUser);
 
                             Toast.makeText(Signup.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(Signup.this, LoginActivity.class);
+                            Intent i = new Intent(Signup.this, SetupActivity.class);
                             startActivity(i);
                             clearScreen();
 
@@ -98,6 +100,7 @@ public class Signup extends Activity implements View.OnClickListener {
 
                         }else{
                             Toast.makeText(Signup.this, "Failed To Register!", Toast.LENGTH_SHORT).show();
+                            clearScreen();
 
 
                         }
@@ -106,7 +109,7 @@ public class Signup extends Activity implements View.OnClickListener {
 
     }
     public void goToMain(View view){
-        Intent j = new Intent(Signup.this, MainActivity.class);
+        Intent j = new Intent(Signup.this, SetupActivity.class);
         startActivity(j);
     }
 

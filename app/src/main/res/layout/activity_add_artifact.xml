@@ -12,7 +12,7 @@
         android:layout_width="223dp"
         android:layout_height="113dp"
         android:layout_marginLeft="80dp"
-        android:background="@drawable/addimage"
+        android:background="@drawable/image_download_icon"
         android:onClick="imageButtonClicked" />
 
     <EditText
