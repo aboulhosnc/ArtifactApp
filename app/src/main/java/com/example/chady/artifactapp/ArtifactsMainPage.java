@@ -89,7 +89,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
         };
         mArtifactList.setAdapter(FBRA);
     }
-
+    ///Need this
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -123,7 +123,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
         }
 
     }
-
+    //Need this
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
