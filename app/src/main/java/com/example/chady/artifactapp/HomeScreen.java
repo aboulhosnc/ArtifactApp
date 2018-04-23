@@ -3,6 +3,7 @@ package com.example.chady.artifactapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -17,7 +18,7 @@ import android.os.Bundle;
 public class HomeScreen extends Activity {
 
     private FirebaseAuth mAuth;
-
+    private FirebaseAuth.AuthStateListener authStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +27,23 @@ public class HomeScreen extends Activity {
 
         mAuth = FirebaseAuth.getInstance();
 
-       /*
-       Need listener?
-       if(mAuth.getCurrentUser() == null){
-            startActivity(new Intent(HomeScreen.this, LoginActivity.class));
-        }
-        */
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser() == null){
+                    Intent loginIntent = new Intent(HomeScreen.this, MainActivity.class);
+                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(loginIntent);
+                }
+            }
+        };
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
 
-
+        mAuth.addAuthStateListener(authStateListener);
+    }
 
 
     public void onArtifactsClick(View view) {
@@ -74,6 +83,8 @@ public class HomeScreen extends Activity {
     }
 
     public void onLogoutClick(View view) {
-        startActivity(new Intent(HomeScreen.this, LoginActivity.class));
+        mAuth.signOut();
+        //startActivity(new Intent(HomeScreen.this, LoginActivity.class));
+
     }
 }
