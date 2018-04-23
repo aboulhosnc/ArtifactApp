@@ -36,11 +36,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/singleArtifactUploadUser"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Artifact"
+        android:id="@+id/singleArtifactEdit"
+        android:onClick="editArtifactClicked"/>
     
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete Image"
+        android:text="Delete Artifact"
         android:id="@+id/singleArtifactDelete"
         android:onClick="deleteButtonClicked"/>
 

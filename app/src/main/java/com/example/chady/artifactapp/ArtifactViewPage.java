@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +33,7 @@ public class ArtifactViewPage extends AppCompatActivity {
 
     private Button deleteButton;
     private FirebaseAuth mAuth;
+    private Button editButton;
 
 
 
@@ -54,6 +56,8 @@ public class ArtifactViewPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         deleteButton =(Button) findViewById(R.id.singleArtifactDelete);
         deleteButton.setVisibility(View.INVISIBLE);
+        editButton = (Button) findViewById(R.id.singleArtifactEdit);
+        editButton.setVisibility(View.INVISIBLE);
 
 
 
@@ -82,6 +86,7 @@ public class ArtifactViewPage extends AppCompatActivity {
                 // only show buttons visible if user created post
 
                 if(mAuth.getCurrentUser().getUid().equals(post_uid)){
+                    editButton.setVisibility(View.VISIBLE);
                     deleteButton.setVisibility(View.VISIBLE);
 
                 }
@@ -99,9 +104,18 @@ public class ArtifactViewPage extends AppCompatActivity {
     }
     public void deleteButtonClicked (View view) {
         mDatabase.child(post_key).removeValue();
+        Toast.makeText(ArtifactViewPage.this,"Artifact Deleted",Toast.LENGTH_LONG).show();
+
         Intent mainActivityIntent = new Intent(ArtifactViewPage.this, ArtifactsMainPage.class);
         startActivity(mainActivityIntent);
 
+    }
+    public void editArtifactClicked (View view) {
+
+        Intent editArtifact = new Intent(ArtifactViewPage.this, AddArtifact.class);
+
+        //editArtifact.putExtra("name", )
+        startActivity(editArtifact);
     }
 
 
