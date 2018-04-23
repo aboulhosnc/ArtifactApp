@@ -13,13 +13,12 @@
         android:layout_margin="10dp"
         >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/post_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:backgroundTint="@color/cardview_light_background"
             android:elevation="0dp"
-            android:onClick="artifactPageClicked"
             android:visibility="visible" />
 
         <TextView
@@ -42,6 +41,12 @@
             android:text="Price Here"
             android:layout_margin="5dp"
             android:id="@+id/artifactPrice"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Uploaded By"
+            android:layout_margin="5dp"
+            android:id="@+id/textUsername"/>
 
     </LinearLayout>
 

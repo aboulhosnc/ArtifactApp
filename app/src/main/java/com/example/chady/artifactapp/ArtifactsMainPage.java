@@ -18,6 +18,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
 public class ArtifactsMainPage extends AppCompatActivity {
@@ -41,6 +42,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
         // finds reference in database called Artifacts
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Artifacts");
         mAuth = FirebaseAuth.getInstance();
+
 
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -73,7 +75,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
                 Artifact.class,
                 R.layout.artifact_row,
                 ArtifactViewHolder.class,
-                mDatabase
+                mDatabase.orderByChild("toolType")
 
         ) {
             @Override
@@ -84,6 +86,20 @@ public class ArtifactsMainPage extends AppCompatActivity {
 
                 viewHolder.setPrice(model.getPrice());
                 viewHolder.setImage(getApplicationContext(),model.getImage());
+                viewHolder.setUserName(model.getUsername());
+
+                // position of the post in the recyler view
+                final String post_key = getRef(position).getKey().toString();
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent artifactView = new Intent(ArtifactsMainPage.this, ArtifactViewPage.class);
+                        artifactView.putExtra("PostId",post_key);
+                        startActivity(artifactView);
+
+
+                    }
+                });
 
             }
         };
@@ -98,28 +114,33 @@ public class ArtifactsMainPage extends AppCompatActivity {
     }
 
     public static class ArtifactViewHolder extends RecyclerView.ViewHolder {
+        View mView;
         public ArtifactViewHolder(View itemView) {
             super(itemView);
-            View mView = itemView;
+             mView = itemView;
         }
 
         public void setTitle(String title){
-            TextView post_title = (TextView) itemView.findViewById(R.id.textTitle);
+            TextView post_title = (TextView) mView.findViewById(R.id.textTitle);
             post_title.setText(title);
         }
         public void setPrice(int price){
-            TextView post_price = (TextView) itemView.findViewById(R.id.artifactPrice);
+            TextView post_price = (TextView) mView.findViewById(R.id.artifactPrice);
             post_price.setText(String.valueOf(price));
         }
 
         public void setImage(Context ctx, String image){
-            ImageView post_image = (ImageView) itemView.findViewById(R.id.post_image);
+            ImageView post_image = (ImageView) mView.findViewById(R.id.post_image);
             Picasso.get().load(image).into(post_image);
         }
 
         public void setToolType(String toolType){
-            TextView post_title = (TextView) itemView.findViewById(R.id.textToolType);
+            TextView post_title = (TextView) mView.findViewById(R.id.textToolType);
             post_title.setText(toolType);
+        }
+        public void setUserName(String userName) {
+            TextView post_username = (TextView) mView.findViewById(R.id.textUsername);
+            post_username.setText(userName);
         }
 
     }
@@ -144,13 +165,25 @@ public class ArtifactsMainPage extends AppCompatActivity {
         {
             mAuth.signOut();
         }
+        else if(id ==R.id.sort_Type)
+        {
+            sortType();
+        }
 
         return super.onOptionsItemSelected(item);
     }
+    /*
     public void artifactPageClicked (View view) {
-
         Intent artifactView = new Intent(ArtifactsMainPage.this, ArtifactViewPage.class);
         startActivity(artifactView);
+    }
+    */
+    public void sortType() {
+        //final String user_id = mAuth.getCurrentUser().getUid();
+
+          mDatabase.orderByChild("toolType");
+
+
 
     }
 

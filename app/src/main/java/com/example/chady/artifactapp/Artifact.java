@@ -11,6 +11,7 @@ public class Artifact {
     private String  image;
     private String  toolType;
     private int price;
+    private String username;
 
 
 
@@ -18,13 +19,14 @@ public class Artifact {
 
     public Artifact () {}
 
-    public Artifact(String title, String desc, String image, String toolType, int price) {
+    public Artifact(String title, String desc, String image, String toolType, int price, String username) {
 
         this.title = title;
         this.image = image;
         this.description = desc;
         this.toolType = toolType;
         this.price = price;
+        this.username = username;
     }
 
 
@@ -79,5 +81,12 @@ public class Artifact {
     public void setPrice(int price) {
         this.price = price;
     }
+    public String getUsername() {
 
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

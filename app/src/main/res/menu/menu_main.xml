@@ -8,6 +8,11 @@
         android:title="Settings"
         app:showAsAction="never" />
     <item
+        android:id="@+id/sort_Type"
+        android:orderInCategory="100"
+        android:title="Sort by Type"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/addIcon"
         app:showAsAction="always"
         android:icon="@drawable/addicon"

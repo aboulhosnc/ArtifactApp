@@ -2,6 +2,7 @@ package com.example.chady.artifactapp;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,9 +14,16 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,6 +46,9 @@ public class AddArtifact extends AppCompatActivity {
     private DatabaseReference databaseReference;
     Spinner spinner;
     ArrayAdapter<CharSequence> adapter;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabaseUsers;
+    private FirebaseUser mCurrentUser;
 
 
     @Override
@@ -53,6 +64,13 @@ public class AddArtifact extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         databaseReference = firebaseDatabase.getInstance().getReference().child("Artifacts");
         imageButton = (ImageButton) findViewById(R.id.imageButton);
+
+
+        //initate mauth database and firebaseuser
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
+        // where the name field is puled from
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("users").child(mCurrentUser.getUid());
 
         // drop down list for Tool Types
         spinner = (Spinner)findViewById(R.id.spinner);
@@ -145,23 +163,55 @@ public class AddArtifact extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    DatabaseReference newPost = databaseReference.push();
-                    Uri downloadurl = taskSnapshot.getDownloadUrl();
+                    // use final so newpost will show up in evenlistener
+                    final DatabaseReference newPost = databaseReference.push();
+                    final Uri downloadurl = taskSnapshot.getDownloadUrl();
+
+                    mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            newPost.child("title").setValue(titleValue);
+                            newPost.child("description").setValue(descValue);
+                            newPost.child("image").setValue(downloadurl.toString());
+                            newPost.child("price").setValue(priceValue);
+                            newPost.child("toolType").setValue(toolValue);
+                            newPost.child("location").setValue(locationValue);
+                            newPost.child("uid").setValue(mCurrentUser.getUid());
+                            newPost.child("username").setValue(dataSnapshot.child("name").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(AddArtifact.this,"Upload Complete",Toast.LENGTH_LONG).show();
+                                        clearScreen();
+                                        Intent i = new Intent(AddArtifact.this, ArtifactsMainPage.class);
+                                        startActivity(i);
+
+                                    }
+
+                                }
+                            });
 
 
-                    newPost.child("title").setValue(titleValue);
-                    newPost.child("description").setValue(descValue);
-                    newPost.child("image").setValue(downloadurl.toString());
-                    newPost.child("price").setValue(priceValue);
-                    newPost.child("toolType").setValue(toolValue);
-                    newPost.child("location").setValue(locationValue);
-                    Toast.makeText(AddArtifact.this,"Upload Complete",Toast.LENGTH_LONG).show();
-                    clearScreen();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
 
 
 
-                    Intent i = new Intent(AddArtifact.this, ArtifactsMainPage.class);
-                    startActivity(i);
+
+
+                    //Toast.makeText(AddArtifact.this,"Upload Complete",Toast.LENGTH_LONG).show();
+                    //clearScreen();
+
+
+
+                    //Intent i = new Intent(AddArtifact.this, ArtifactsMainPage.class);
+                    //startActivity(i);
 
 
                 }
