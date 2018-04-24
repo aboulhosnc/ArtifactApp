@@ -90,6 +90,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
 
                 // position of the post in the recyler view
                 final String post_key = getRef(position).getKey().toString();
+
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -158,7 +159,9 @@ public class ArtifactsMainPage extends AppCompatActivity {
         }
         else if(id == R.id.addIcon)
         {
+            String postkey = null;
             Intent intent = new Intent(ArtifactsMainPage.this, AddArtifact.class);
+            intent.putExtra("postkey",postkey);
             startActivity(intent);
         }
         else if(id == R.id.logout)

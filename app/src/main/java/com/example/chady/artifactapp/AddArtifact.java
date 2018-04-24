@@ -50,6 +50,10 @@ public class AddArtifact extends AppCompatActivity {
     private DatabaseReference mDatabaseUsers;
     private FirebaseUser mCurrentUser;
 
+    //for editing artifacts
+    private String post_key = null;
+    private boolean editClick = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,12 @@ public class AddArtifact extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         databaseReference = firebaseDatabase.getInstance().getReference().child("Artifacts");
         imageButton = (ImageButton) findViewById(R.id.imageButton);
+
+        Bundle bundle = getIntent().getExtras();
+
+        //when editing an artifact from the view page
+
+
 
 
         //initate mauth database and firebaseuser
@@ -93,6 +103,12 @@ public class AddArtifact extends AppCompatActivity {
 
             }
         });
+
+        if(bundle.getString("PostId") != null) {
+            post_key = getIntent().getExtras().getString("PostId");
+            editArtifactName.setText("this is a test");
+
+        }
 
 
 
@@ -153,11 +169,22 @@ public class AddArtifact extends AppCompatActivity {
         final String descValue = editDesc.getText().toString().trim();
         final String costValue = editPrice.getText().toString().trim();
         final String locationValue = editLocation.getText().toString().trim();
-        final int priceValue =  Integer.parseInt(costValue);
+
         final String toolValue =  spinner.getSelectedItem().toString();
 
 
-        if(!TextUtils.isEmpty(titleValue) && !TextUtils.isEmpty(descValue)){
+        if(TextUtils.isEmpty(titleValue)) {
+            Toast.makeText(AddArtifact.this,"Artifact Name required",Toast.LENGTH_LONG).show();
+            return;
+        }
+        if( imageButton.getDrawable() == null)
+        {
+            Toast.makeText(AddArtifact.this,"Image required",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
+        if(!TextUtils.isEmpty(titleValue)  ){
             StorageReference filePath = storageReference.child("PostImage").child(mImageUri.getLastPathSegment());
             filePath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -171,12 +198,36 @@ public class AddArtifact extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
+                            if(TextUtils.isEmpty(descValue)) {
+                                newPost.child("description").setValue("Description not added");
+                            }
+                            else
+                            {
+                                newPost.child("description").setValue(descValue);
+                            }
+
+
+                            if(TextUtils.isEmpty(costValue)) {
+
+                                newPost.child("price").setValue("0");
+                            }
+                            else
+                            {
+                                int priceValue =  Integer.parseInt(costValue);
+                                newPost.child("price").setValue(priceValue);
+                            }
+                            if( TextUtils.isEmpty(locationValue)){
+                                newPost.child("location").setValue("Location not added");
+                            }
+                            else {
+                                newPost.child("location").setValue(locationValue);
+                            }
+
+
                             newPost.child("title").setValue(titleValue);
-                            newPost.child("description").setValue(descValue);
                             newPost.child("image").setValue(downloadurl.toString());
-                            newPost.child("price").setValue(priceValue);
+
                             newPost.child("toolType").setValue(toolValue);
-                            newPost.child("location").setValue(locationValue);
                             newPost.child("uid").setValue(mCurrentUser.getUid());
                             newPost.child("username").setValue(dataSnapshot.child("name").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -200,19 +251,6 @@ public class AddArtifact extends AppCompatActivity {
 
                         }
                     });
-
-
-
-
-
-                    //Toast.makeText(AddArtifact.this,"Upload Complete",Toast.LENGTH_LONG).show();
-                    //clearScreen();
-
-
-
-                    //Intent i = new Intent(AddArtifact.this, ArtifactsMainPage.class);
-                    //startActivity(i);
-
 
                 }
             });

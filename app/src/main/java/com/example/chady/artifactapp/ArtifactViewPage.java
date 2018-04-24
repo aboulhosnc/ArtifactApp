@@ -31,6 +31,9 @@ public class ArtifactViewPage extends AppCompatActivity {
     private TextView singlePostArtifactToolType;
     private TextView singlePostArtifactUsername;
 
+    //test for postkey
+    private TextView singlePostKey;
+
     private Button deleteButton;
     private FirebaseAuth mAuth;
     private Button editButton;
@@ -42,6 +45,7 @@ public class ArtifactViewPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artifact_view_page);
 
+
          post_key = getIntent().getExtras().getString("PostId");
          mDatabase = FirebaseDatabase.getInstance().getReference().child("Artifacts");
 
@@ -52,6 +56,9 @@ public class ArtifactViewPage extends AppCompatActivity {
         singlePostArtifactPrice = (TextView) findViewById(R.id.singleArtifactPrice);
         singlePostArtifactToolType = (TextView) findViewById(R.id.singleArtifactToolType);
         singlePostArtifactUsername = (TextView) findViewById(R.id.singleArtifactUploadUser);
+
+        //test for postkey
+        singlePostKey = (TextView) findViewById(R.id.singleArtifactPostKey);
 
         mAuth = FirebaseAuth.getInstance();
         deleteButton =(Button) findViewById(R.id.singleArtifactDelete);
@@ -74,12 +81,17 @@ public class ArtifactViewPage extends AppCompatActivity {
                 String post_uid = (String) dataSnapshot.child("uid").getValue();
                 String post_username = (String) dataSnapshot.child("username").getValue();
 
+
+
                 singlePostArtifactName.setText(post_name);
                 singlePostArtifactDescription.setText(post_desc);
                 singlePostArtifactLocation.setText(post_location);
                 singlePostArtifactPrice.setText(String.valueOf(post_price));
                 singlePostArtifactToolType.setText(post_tooltype);
                 singlePostArtifactUsername.setText(post_username);
+
+                //Test for postkey
+                singlePostKey.setText(post_key);
 
                 Picasso.get().load(post_image).into(singlePostArtifactImage);
 
@@ -111,10 +123,13 @@ public class ArtifactViewPage extends AppCompatActivity {
 
     }
     public void editArtifactClicked (View view) {
+        //check if edit button was clicked
+        boolean editClick = true;
 
         Intent editArtifact = new Intent(ArtifactViewPage.this, AddArtifact.class);
 
-        //editArtifact.putExtra("name", )
+        editArtifact.putExtra("PostId",post_key );
+        editArtifact.putExtra("editIntent",editClick);
         startActivity(editArtifact);
     }
 
