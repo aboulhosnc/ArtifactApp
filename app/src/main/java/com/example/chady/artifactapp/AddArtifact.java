@@ -106,7 +106,37 @@ public class AddArtifact extends AppCompatActivity {
 
         if(bundle.getString("PostId") != null) {
             post_key = getIntent().getExtras().getString("PostId");
-            editArtifactName.setText("this is a test");
+
+            databaseReference.child(post_key).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String post_name = (String) dataSnapshot.child("title").getValue();
+                    String post_desc = (String) dataSnapshot.child("description").getValue();
+                    String post_location = (String) dataSnapshot.child("location").getValue();
+                    Long post_price = (Long) dataSnapshot.child("price").getValue();
+                    String cost = Long.toString(post_price);
+                    String post_tooltype = (String) dataSnapshot.child("toolType").getValue();
+                    String post_image = (String) dataSnapshot.child("image").getValue();
+                    String post_uid = (String) dataSnapshot.child("uid").getValue();
+                    String post_username = (String) dataSnapshot.child("username").getValue();
+
+                    editArtifactName.setText(post_name);
+                    editDesc.setText(post_desc);
+                    editLocation.setText(post_location);
+                    editPrice.setText(cost);
+                    databaseReference.removeValue();
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+
 
         }
 
