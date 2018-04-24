@@ -124,7 +124,7 @@ public class AddArtifact extends AppCompatActivity {
                     editDesc.setText(post_desc);
                     editLocation.setText(post_location);
                     editPrice.setText(cost);
-                    databaseReference.removeValue();
+
 
 
                 }
@@ -135,8 +135,7 @@ public class AddArtifact extends AppCompatActivity {
                 }
             });
 
-
-
+            //databaseReference.child(post_key).removeValue();
 
         }
 
@@ -266,6 +265,8 @@ public class AddArtifact extends AppCompatActivity {
                                         Toast.makeText(AddArtifact.this,"Upload Complete",Toast.LENGTH_LONG).show();
                                         clearScreen();
                                         Intent i = new Intent(AddArtifact.this, ArtifactsMainPage.class);
+
+
                                         startActivity(i);
 
                                     }
