@@ -126,7 +126,7 @@ public class ArtifactViewPage extends AppCompatActivity {
         //check if edit button was clicked
         boolean editClick = true;
 
-        Intent editArtifact = new Intent(ArtifactViewPage.this, AddArtifact.class);
+        Intent editArtifact = new Intent(ArtifactViewPage.this, EditArtifact.class);
 
         editArtifact.putExtra("PostId",post_key );
         editArtifact.putExtra("editIntent",editClick);
