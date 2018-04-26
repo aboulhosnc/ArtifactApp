@@ -172,6 +172,11 @@ public class ArtifactsMainPage extends AppCompatActivity {
         {
             sortType();
         }
+        else if( id == R.id.Homescreen)
+        {
+            Intent homescreenIntent = new Intent(ArtifactsMainPage.this , HomeScreen.class);
+            startActivity(homescreenIntent);
+        }
 
         return super.onOptionsItemSelected(item);
     }
