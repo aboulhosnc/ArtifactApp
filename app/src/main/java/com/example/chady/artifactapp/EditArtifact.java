@@ -53,6 +53,7 @@ public class EditArtifact extends AppCompatActivity {
     //for editing artifacts
     private String post_key = null;
     private boolean editClick = false;
+    //private long post_price;
 
 
     @Override
@@ -113,8 +114,8 @@ public class EditArtifact extends AppCompatActivity {
                     String post_name = (String) dataSnapshot.child("title").getValue();
                     String post_desc = (String) dataSnapshot.child("description").getValue();
                     String post_location = (String) dataSnapshot.child("location").getValue();
-                    int post_price = (int) dataSnapshot.child("price").getValue();
-                    String cost = Integer.toString(post_price);
+                    Long post_price = (Long) dataSnapshot.child("price").getValue();
+                    String cost = Long.toString(post_price);
                     String post_tooltype = (String) dataSnapshot.child("toolType").getValue();
                     String post_image = (String) dataSnapshot.child("image").getValue();
                     String post_uid = (String) dataSnapshot.child("uid").getValue();
@@ -123,6 +124,7 @@ public class EditArtifact extends AppCompatActivity {
                     editArtifactName.setText(post_name);
                     editDesc.setText(post_desc);
                     editLocation.setText(post_location);
+                    editPrice.setText(cost);
                     //editPrice.setText(cost);
 
 
@@ -220,7 +222,7 @@ public class EditArtifact extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                     // use final so newpost will show up in evenlistener
-                    final DatabaseReference newPost = databaseReference.child(post_key).push();
+                    final DatabaseReference newPost = databaseReference.child(post_key);
                     final Uri downloadurl = taskSnapshot.getDownloadUrl();
 
                     mDatabaseUsers.addValueEventListener(new ValueEventListener() {
@@ -242,7 +244,7 @@ public class EditArtifact extends AppCompatActivity {
                             }
                             else
                             {
-                                long priceValue =  Integer.parseInt(costValue);
+                                int priceValue =  Integer.parseInt(costValue);
                                 newPost.child("price").setValue(priceValue);
                             }
                             if( TextUtils.isEmpty(locationValue)){

@@ -202,11 +202,11 @@ public class AddArtifact extends AppCompatActivity {
 
                             if(TextUtils.isEmpty(costValue)) {
 
-                                newPost.child("price").setValue("0");
+                                newPost.child("price").setValue(0);
                             }
                             else
                             {
-                                int priceValue =  Integer.parseInt(costValue);
+                                Long priceValue =  Long.parseLong(costValue);
                                 newPost.child("price").setValue(priceValue);
                             }
                             if( TextUtils.isEmpty(locationValue)){

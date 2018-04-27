@@ -125,7 +125,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
             TextView post_title = (TextView) mView.findViewById(R.id.textTitle);
             post_title.setText(title);
         }
-        public void setPrice(int price){
+        public void setPrice(Long price){
             TextView post_price = (TextView) mView.findViewById(R.id.artifactPrice);
             post_price.setText(String.valueOf(price));
         }
