@@ -240,7 +240,7 @@ public class EditArtifact extends AppCompatActivity {
 
                             if(TextUtils.isEmpty(costValue)) {
 
-                                newPost.child("price").setValue("0");
+                                newPost.child("price").setValue(0);
                             }
                             else
                             {
