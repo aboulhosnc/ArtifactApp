@@ -71,7 +71,8 @@ public class HomeScreen extends Activity {
     }
 
     public void onCalendarClick(View view) {
-        System.out.println("Button Clicked");
+        Intent i = new Intent(HomeScreen.this, CalendarActivity.class);
+        startActivity(i);
     }
 
     public void onNotificationsClick(View view) {
