@@ -30,7 +30,7 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-public class AddArtifact extends AppCompatActivity {
+public class EditArtifact extends AppCompatActivity {
 
     private static final int GALLERY_REQUEST = 2;
     private Uri uri = null; // store image value
@@ -52,7 +52,8 @@ public class AddArtifact extends AppCompatActivity {
 
     //for editing artifacts
     private String post_key = null;
-
+    private boolean editClick = false;
+    //private long post_price;
 
 
     @Override
@@ -104,6 +105,43 @@ public class AddArtifact extends AppCompatActivity {
             }
         });
 
+        if(bundle.getString("PostId") != null) {
+            post_key = getIntent().getExtras().getString("PostId");
+
+            databaseReference.child(post_key).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String post_name = (String) dataSnapshot.child("title").getValue();
+                    String post_desc = (String) dataSnapshot.child("description").getValue();
+                    String post_location = (String) dataSnapshot.child("location").getValue();
+                    Long post_price = (Long) dataSnapshot.child("price").getValue();
+                    String cost = Long.toString(post_price);
+                    String post_tooltype = (String) dataSnapshot.child("toolType").getValue();
+                    String post_image = (String) dataSnapshot.child("image").getValue();
+                    String post_uid = (String) dataSnapshot.child("uid").getValue();
+                    String post_username = (String) dataSnapshot.child("username").getValue();
+
+                    editArtifactName.setText(post_name);
+                    editDesc.setText(post_desc);
+                    editLocation.setText(post_location);
+                    editPrice.setText(cost);
+                    //editPrice.setText(cost);
+
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            //databaseReference.child(post_key).removeValue();
+
+        }
+
+
 
     }
 
@@ -113,29 +151,29 @@ public class AddArtifact extends AppCompatActivity {
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent,GALLERY_REQUEST);
     }
-/*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK)
-        {
-            uri = data.getData();
-            imageButton.setBackgroundResource(0);
-
-            imageButton.setImageURI(uri); //replaces stock image with image of choice
-
-
-
-        }
-    }
-    */
+    /*
         @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK)
+            {
+                uri = data.getData();
+                imageButton.setBackgroundResource(0);
+
+                imageButton.setImageURI(uri); //replaces stock image with image of choice
+
+
+
+            }
+        }
+        */
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
 
-             uri = data.getData();
+            uri = data.getData();
             CropImage.activity(uri)
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1,1)
@@ -145,8 +183,8 @@ public class AddArtifact extends AppCompatActivity {
         if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if(resultCode == RESULT_OK) {
-            imageButton.setBackgroundResource(0);
-                 mImageUri = result.getUri();
+                imageButton.setBackgroundResource(0);
+                mImageUri = result.getUri();
                 imageButton.setImageURI(mImageUri);
             }
             else if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
@@ -167,12 +205,12 @@ public class AddArtifact extends AppCompatActivity {
 
 
         if(TextUtils.isEmpty(titleValue)) {
-            Toast.makeText(AddArtifact.this,"Artifact Name required",Toast.LENGTH_LONG).show();
+            Toast.makeText(EditArtifact.this,"Artifact Name required",Toast.LENGTH_LONG).show();
             return;
         }
         if( imageButton.getDrawable() == null)
         {
-            Toast.makeText(AddArtifact.this,"Image required",Toast.LENGTH_LONG).show();
+            Toast.makeText(EditArtifact.this,"Image required",Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -184,7 +222,7 @@ public class AddArtifact extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                     // use final so newpost will show up in evenlistener
-                    final DatabaseReference newPost = databaseReference.push();
+                    final DatabaseReference newPost = databaseReference.child(post_key);
                     final Uri downloadurl = taskSnapshot.getDownloadUrl();
 
                     mDatabaseUsers.addValueEventListener(new ValueEventListener() {
@@ -206,7 +244,7 @@ public class AddArtifact extends AppCompatActivity {
                             }
                             else
                             {
-                                Long priceValue =  Long.parseLong(costValue);
+                                int priceValue =  Integer.parseInt(costValue);
                                 newPost.child("price").setValue(priceValue);
                             }
                             if( TextUtils.isEmpty(locationValue)){
@@ -226,11 +264,11 @@ public class AddArtifact extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Toast.makeText(AddArtifact.this,"Upload Complete",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(EditArtifact.this,"Upload Complete",Toast.LENGTH_LONG).show();
                                         clearScreen();
-                                        Intent i = new Intent(AddArtifact.this, ArtifactsMainPage.class);
-
-
+                                        //databaseReference.child(post_key).removeValue();
+                                        Intent i = new Intent(EditArtifact.this, ArtifactsMainPage.class);
+                                        i.putExtra("post_key",post_key);
                                         startActivity(i);
 
                                     }

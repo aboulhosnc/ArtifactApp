@@ -38,6 +38,9 @@
         <activity android:name=".AddEvent">
 
         </activity>
+
+        <activity android:name=".EditArtifact"></activity>
+
     </application>
 
 </manifest>

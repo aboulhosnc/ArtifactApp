@@ -10,7 +10,7 @@ public class Artifact {
     private String description;
     private String  image;
     private String  toolType;
-    private int price;
+    private long price;
     private String username;
 
 
@@ -73,14 +73,15 @@ public class Artifact {
         this.toolType = toolType;
     }
 
-    public int getPrice() {
+    public long getPrice() {
 
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(long price) {
         this.price = price;
     }
+
     public String getUsername() {
 
         return username;

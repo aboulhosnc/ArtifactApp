@@ -90,6 +90,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
 
                 // position of the post in the recyler view
                 final String post_key = getRef(position).getKey().toString();
+
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -124,7 +125,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
             TextView post_title = (TextView) mView.findViewById(R.id.textTitle);
             post_title.setText(title);
         }
-        public void setPrice(int price){
+        public void setPrice(Long price){
             TextView post_price = (TextView) mView.findViewById(R.id.artifactPrice);
             post_price.setText(String.valueOf(price));
         }
@@ -158,7 +159,9 @@ public class ArtifactsMainPage extends AppCompatActivity {
         }
         else if(id == R.id.addIcon)
         {
+            String postkey = null;
             Intent intent = new Intent(ArtifactsMainPage.this, AddArtifact.class);
+            intent.putExtra("postkey",postkey);
             startActivity(intent);
         }
         else if(id == R.id.logout)
@@ -168,6 +171,11 @@ public class ArtifactsMainPage extends AppCompatActivity {
         else if(id ==R.id.sort_Type)
         {
             sortType();
+        }
+        else if( id == R.id.Homescreen)
+        {
+            Intent homescreenIntent = new Intent(ArtifactsMainPage.this , HomeScreen.class);
+            startActivity(homescreenIntent);
         }
 
         return super.onOptionsItemSelected(item);
