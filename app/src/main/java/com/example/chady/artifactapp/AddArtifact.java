@@ -51,6 +51,7 @@ public class AddArtifact extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseUsers;
     private FirebaseUser mCurrentUser;
+    private boolean imageAdded = false;
 
 
     //for editing artifacts
@@ -115,24 +116,9 @@ public class AddArtifact extends AppCompatActivity {
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent,GALLERY_REQUEST);
+
     }
-/*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK)
-        {
-            uri = data.getData();
-            imageButton.setBackgroundResource(0);
-
-            imageButton.setImageURI(uri); //replaces stock image with image of choice
-
-
-
-        }
-    }
-    */
         @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -151,6 +137,7 @@ public class AddArtifact extends AppCompatActivity {
             imageButton.setBackgroundResource(0);
                  mImageUri = result.getUri();
                 imageButton.setImageURI(mImageUri);
+                imageAdded = true;
             }
             else if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
@@ -175,7 +162,7 @@ public class AddArtifact extends AppCompatActivity {
             return;
         }
 
-        if( !imageButton.isPressed())
+        if( imageAdded == false)
         {
             Toast.makeText(AddArtifact.this,"Image required",Toast.LENGTH_LONG).show();
             return;

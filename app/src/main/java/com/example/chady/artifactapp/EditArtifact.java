@@ -155,29 +155,17 @@ public class EditArtifact extends AppCompatActivity {
 
     }
 
+
     public void imageButtonClicked (View view)
     {
+
+
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent,GALLERY_REQUEST);
+
     }
-    /*
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
 
-            if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK)
-            {
-                uri = data.getData();
-                imageButton.setBackgroundResource(0);
-
-                imageButton.setImageURI(uri); //replaces stock image with image of choice
-
-
-
-            }
-        }
-        */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -196,6 +184,7 @@ public class EditArtifact extends AppCompatActivity {
                 imageButton.setBackgroundResource(0);
                 mImageUri = result.getUri();
                 imageButton.setImageURI(mImageUri);
+
             }
             else if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
@@ -218,13 +207,6 @@ public class EditArtifact extends AppCompatActivity {
             Toast.makeText(EditArtifact.this,"Artifact Name required",Toast.LENGTH_LONG).show();
             return;
         }
-
-        if( !imageButton.isPressed())
-        {
-            Toast.makeText(EditArtifact.this,"Image required",Toast.LENGTH_LONG).show();
-            return;
-        }
-
 
         if(!TextUtils.isEmpty(titleValue)  ){
             StorageReference filePath = storageReference.child("PostImage").child(mImageUri.getLastPathSegment());
