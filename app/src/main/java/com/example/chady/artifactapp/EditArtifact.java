@@ -325,7 +325,7 @@ public class EditArtifact extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(EditArtifact.this,"Upload Complete",Toast.LENGTH_LONG).show();
+                                Toast.makeText(EditArtifact.this,"Artifact Updated",Toast.LENGTH_LONG).show();
                                 clearScreen();
                                 //databaseReference.child(post_key).removeValue();
                                 Intent i = new Intent(EditArtifact.this, ArtifactsMainPage.class);
