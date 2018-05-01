@@ -57,7 +57,7 @@ public class EditArtifact extends AppCompatActivity {
 
     //for editing artifacts
     private String post_key = null;
-    private boolean editClick = false;
+    private boolean imageAdded = false;
     //private long post_price;
 
 
@@ -74,6 +74,9 @@ public class EditArtifact extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         databaseReference = firebaseDatabase.getInstance().getReference().child("Artifacts");
         imageButton = (ImageButton) findViewById(R.id.imageButton);
+
+        // check for image add
+
 
         Bundle bundle = getIntent().getExtras();
 
@@ -135,7 +138,10 @@ public class EditArtifact extends AppCompatActivity {
                     Picasso.get().load(post_image).into(imageButton);
                     spinner.setSelection(testArray.indexOf(post_tooltype));
 
-                    //editPrice.setText(cost);
+                    // check for image add
+                    boolean imageAdded = false;
+
+
                 }
 
                 @Override
@@ -174,6 +180,7 @@ public class EditArtifact extends AppCompatActivity {
                 imageButton.setBackgroundResource(0);
                 mImageUri = result.getUri();
                 imageButton.setImageURI(mImageUri);
+                imageAdded = true;
 
             }
             else if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
@@ -198,7 +205,7 @@ public class EditArtifact extends AppCompatActivity {
             return;
         }
 
-        if(!TextUtils.isEmpty(titleValue)  ){
+        if(!TextUtils.isEmpty(titleValue) && imageAdded ){
             StorageReference filePath = storageReference.child("PostImage").child(mImageUri.getLastPathSegment());
             filePath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -239,7 +246,9 @@ public class EditArtifact extends AppCompatActivity {
 
 
                             newPost.child("title").setValue(titleValue);
-                            newPost.child("image").setValue(downloadurl.toString());
+                            if(imageAdded) {
+                                newPost.child("image").setValue(downloadurl.toString());
+                            }
 
                             newPost.child("toolType").setValue(toolValue);
                             newPost.child("uid").setValue(mCurrentUser.getUid());
@@ -267,6 +276,72 @@ public class EditArtifact extends AppCompatActivity {
 
                         }
                     });
+
+                }
+            });
+        }
+        else if (!TextUtils.isEmpty(titleValue) && imageAdded==false)
+        {
+            // use final so newpost will show up in evenlistener
+            final DatabaseReference newPost = databaseReference.child(post_key);
+
+
+            mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    if(TextUtils.isEmpty(descValue)) {
+                        newPost.child("description").setValue("Description not added");
+                    }
+                    else
+                    {
+                        newPost.child("description").setValue(descValue);
+                    }
+
+
+                    if(TextUtils.isEmpty(costValue)) {
+
+                        newPost.child("price").setValue(0);
+                    }
+                    else
+                    {
+                        int priceValue =  Integer.parseInt(costValue);
+                        newPost.child("price").setValue(priceValue);
+                    }
+                    if( TextUtils.isEmpty(locationValue)){
+                        newPost.child("location").setValue("Location not added");
+                    }
+                    else {
+                        newPost.child("location").setValue(locationValue);
+                    }
+
+
+                    newPost.child("title").setValue(titleValue);
+
+
+                    newPost.child("toolType").setValue(toolValue);
+                    newPost.child("uid").setValue(mCurrentUser.getUid());
+                    newPost.child("username").setValue(dataSnapshot.child("name").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(EditArtifact.this,"Upload Complete",Toast.LENGTH_LONG).show();
+                                clearScreen();
+                                //databaseReference.child(post_key).removeValue();
+                                Intent i = new Intent(EditArtifact.this, ArtifactsMainPage.class);
+                                i.putExtra("post_key",post_key);
+                                startActivity(i);
+
+                            }
+
+                        }
+                    });
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
                 }
             });
