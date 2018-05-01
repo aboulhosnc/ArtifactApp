@@ -161,16 +161,17 @@ public class AddArtifact extends AppCompatActivity {
             Toast.makeText(AddArtifact.this,"Artifact Name required",Toast.LENGTH_LONG).show();
             return;
         }
-
+/*
         if( imageAdded == false)
         {
             Toast.makeText(AddArtifact.this,"Image required",Toast.LENGTH_LONG).show();
             return;
         }
+        */
 
 
 
-        if(!TextUtils.isEmpty(titleValue)  ){
+        if(!TextUtils.isEmpty(titleValue) && imageAdded  ){
             StorageReference filePath = storageReference.child("PostImage").child(mImageUri.getLastPathSegment());
             filePath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -239,6 +240,70 @@ public class AddArtifact extends AppCompatActivity {
 
                         }
                     });
+
+                }
+            });
+        }
+        else if(imageAdded == false && !TextUtils.isEmpty(titleValue)) {
+            final DatabaseReference newPost = databaseReference.push();
+            final String downloadurl = "https://firebasestorage.googleapis.com/v0/b/artifactapp-a3a51.appspot.com/o/PostImage%2F300px-No_image_available.svg.png?alt=media&token=63496214-e401-45db-a460-b2df3bab1e52";
+
+            mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    if(TextUtils.isEmpty(descValue)) {
+                        newPost.child("description").setValue("Description not added");
+                    }
+                    else
+                    {
+                        newPost.child("description").setValue(descValue);
+                    }
+
+
+                    if(TextUtils.isEmpty(costValue)) {
+
+                        newPost.child("price").setValue(0);
+                    }
+                    else
+                    {
+                        Long priceValue =  Long.parseLong(costValue);
+                        newPost.child("price").setValue(priceValue);
+                    }
+                    if( TextUtils.isEmpty(locationValue)){
+                        newPost.child("location").setValue("Location not added");
+                    }
+                    else {
+                        newPost.child("location").setValue(locationValue);
+                    }
+
+                    newPost.child("title").setValue(titleValue);
+                    newPost.child("image").setValue(downloadurl);
+
+                    newPost.child("toolType").setValue(toolValue);
+                    newPost.child("uid").setValue(mCurrentUser.getUid());
+                    newPost.child("timestamp").setValue(timestamp);
+                    newPost.child("username").setValue(dataSnapshot.child("name").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(AddArtifact.this,"Upload Complete",Toast.LENGTH_LONG).show();
+                                clearScreen();
+                                Intent i = new Intent(AddArtifact.this, ArtifactsMainPage.class);
+
+
+                                startActivity(i);
+
+                            }
+
+                        }
+                    });
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
                 }
             });
