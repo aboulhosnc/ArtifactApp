@@ -51,20 +51,23 @@ public class ArtifactsMainPage extends AppCompatActivity {
         Bundle bundle= getIntent().getExtras();
 
         if(bundle != null) {
-            Boolean sortKeyTest = bundle.getBoolean("sortKey");
+            int sortKeyTest = bundle.getInt("sortKey");
 
             // sort by type
-            if(sortKeyTest){
+            if(sortKeyTest == 1){
                 //mDatabase = FirebaseDatabase.getInstance().getReference().child("Artifacts").orderByChild("timestamp");
                 mQuery = mDatabase.orderByChild("toolType");
 
 
             }
             //sort by timeStamp
-            else{
+            else if(sortKeyTest == 2){
                 //mDatabase = FirebaseDatabase.getInstance().getReference().child("Artifacts").orderByChild("toolType");
                 mQuery = mDatabase.orderByChild("timestamp");
 
+            }
+            else if(sortKeyTest == 3) {
+                mQuery = mDatabase.orderByChild("price");
             }
 
 
@@ -205,7 +208,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
 
             Intent sortRefreshIntent = new Intent(ArtifactsMainPage.this, ArtifactsMainPage.class);
             this.finish();
-            sortRefreshIntent.putExtra("sortKey",true);
+            sortRefreshIntent.putExtra("sortKey",1);
             startActivity(sortRefreshIntent);
 
         }
@@ -214,7 +217,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
 
             Intent sortRefreshIntent = new Intent(ArtifactsMainPage.this, ArtifactsMainPage.class);
             finish();
-            sortRefreshIntent.putExtra("sortKey",false);
+            sortRefreshIntent.putExtra("sortKey",2);
             startActivity(sortRefreshIntent);
 
         }
@@ -224,6 +227,15 @@ public class ArtifactsMainPage extends AppCompatActivity {
             Intent sortRefreshIntent = new Intent(ArtifactsMainPage.this, ArtifactsMainPage.class);
             finish();
             //sortRefreshIntent.putExtra("sortKey",false);
+            startActivity(sortRefreshIntent);
+
+        }
+        else if(id == R.id.sort_Price)
+        {
+
+            Intent sortRefreshIntent = new Intent(ArtifactsMainPage.this, ArtifactsMainPage.class);
+            finish();
+            sortRefreshIntent.putExtra("sortKey",3);
             startActivity(sortRefreshIntent);
 
         }

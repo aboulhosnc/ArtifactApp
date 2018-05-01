@@ -13,6 +13,11 @@
         android:title="Sort by Oldest"
         app:showAsAction="never" />
     <item
+        android:id="@+id/sort_Price"
+        android:orderInCategory="100"
+        android:title="Sort by Price"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/sort_New"
         android:orderInCategory="100"
         android:title="Sort by New"
