@@ -25,6 +25,8 @@ public class ArtifactsMainPage extends AppCompatActivity {
 
     private RecyclerView mArtifactList;
     private DatabaseReference mDatabase;
+    private Query mQuery;
+    //private DatabaseReference mDatabaseOrdered;
     private FirebaseAuth mAuth;
 
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -38,10 +40,37 @@ public class ArtifactsMainPage extends AppCompatActivity {
 
         mArtifactList = (RecyclerView) findViewById(R.id.artifact_list);
         mArtifactList.setHasFixedSize(true);
+
         mArtifactList.setLayoutManager(new LinearLayoutManager(this));
         // finds reference in database called Artifacts
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Artifacts");
+        mQuery = mDatabase;
+       // mDatabaseOrdered = mDatabase;
         mAuth = FirebaseAuth.getInstance();
+
+        Bundle bundle= getIntent().getExtras();
+
+        if(bundle != null) {
+            Boolean sortKeyTest = bundle.getBoolean("sortKey");
+
+            // sort by type
+            if(sortKeyTest){
+                //mDatabase = FirebaseDatabase.getInstance().getReference().child("Artifacts").orderByChild("timestamp");
+                mQuery = mDatabase.orderByChild("toolType");
+
+
+            }
+            //sort by timeStamp
+            else{
+                //mDatabase = FirebaseDatabase.getInstance().getReference().child("Artifacts").orderByChild("toolType");
+                mQuery = mDatabase.orderByChild("timestamp");
+
+            }
+
+
+        }
+        //mDatabase.orderByChild("toolType");
+
 
 
 
@@ -71,12 +100,13 @@ public class ArtifactsMainPage extends AppCompatActivity {
 
 
 
+
         FirebaseRecyclerAdapter<Artifact,ArtifactViewHolder> FBRA = new FirebaseRecyclerAdapter<Artifact, ArtifactViewHolder>(
                 Artifact.class,
                 R.layout.artifact_row,
                 ArtifactViewHolder.class,
-                mDatabase.orderByChild("toolType")
 
+                mQuery
         ) {
             @Override
             protected void populateViewHolder(ArtifactViewHolder viewHolder, Artifact model, int position) {
@@ -170,8 +200,34 @@ public class ArtifactsMainPage extends AppCompatActivity {
         }
         else if(id ==R.id.sort_Type)
         {
-            sortType();
+            //boolean sortKey = true;
+            //sortType();
+
+            Intent sortRefreshIntent = new Intent(ArtifactsMainPage.this, ArtifactsMainPage.class);
+            this.finish();
+            sortRefreshIntent.putExtra("sortKey",true);
+            startActivity(sortRefreshIntent);
+
         }
+        else if(id == R.id.sort_New)
+        {
+
+            Intent sortRefreshIntent = new Intent(ArtifactsMainPage.this, ArtifactsMainPage.class);
+            finish();
+            sortRefreshIntent.putExtra("sortKey",false);
+            startActivity(sortRefreshIntent);
+
+        }
+        else if(id == R.id.sort_Last)
+        {
+
+            Intent sortRefreshIntent = new Intent(ArtifactsMainPage.this, ArtifactsMainPage.class);
+            finish();
+            //sortRefreshIntent.putExtra("sortKey",false);
+            startActivity(sortRefreshIntent);
+
+        }
+
         else if( id == R.id.Homescreen)
         {
             Intent homescreenIntent = new Intent(ArtifactsMainPage.this , HomeScreen.class);

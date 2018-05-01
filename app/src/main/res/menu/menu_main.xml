@@ -8,6 +8,16 @@
         android:title="Settings"
         app:showAsAction="never" />
     <item
+        android:id="@+id/sort_Last"
+        android:orderInCategory="100"
+        android:title="Sort by Oldest"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/sort_New"
+        android:orderInCategory="100"
+        android:title="Sort by New"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/sort_Type"
         android:orderInCategory="100"
         android:title="Sort by Type"

@@ -58,7 +58,7 @@ public class ArtifactViewPage extends AppCompatActivity {
         singlePostArtifactUsername = (TextView) findViewById(R.id.singleArtifactUploadUser);
 
         //test for postkey
-        singlePostKey = (TextView) findViewById(R.id.singleArtifactPostKey);
+        //singlePostKey = (TextView) findViewById(R.id.singleArtifactPostKey);
 
         mAuth = FirebaseAuth.getInstance();
         deleteButton =(Button) findViewById(R.id.singleArtifactDelete);
@@ -91,7 +91,7 @@ public class ArtifactViewPage extends AppCompatActivity {
                 singlePostArtifactUsername.setText(post_username);
 
                 //Test for postkey
-                singlePostKey.setText(post_key);
+               // singlePostKey.setText(post_key);
 
                 Picasso.get().load(post_image).into(singlePostArtifactImage);
 

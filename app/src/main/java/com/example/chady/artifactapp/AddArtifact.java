@@ -30,6 +30,8 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.Date;
+
 public class AddArtifact extends AppCompatActivity {
 
     private static final int GALLERY_REQUEST = 2;
@@ -49,6 +51,7 @@ public class AddArtifact extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseUsers;
     private FirebaseUser mCurrentUser;
+
 
     //for editing artifacts
     private String post_key = null;
@@ -162,6 +165,7 @@ public class AddArtifact extends AppCompatActivity {
         final String descValue = editDesc.getText().toString().trim();
         final String costValue = editPrice.getText().toString().trim();
         final String locationValue = editLocation.getText().toString().trim();
+        final Long timestamp = Long.MAX_VALUE - new Date().getTime();
 
         final String toolValue =  spinner.getSelectedItem().toString();
 
@@ -222,6 +226,7 @@ public class AddArtifact extends AppCompatActivity {
 
                             newPost.child("toolType").setValue(toolValue);
                             newPost.child("uid").setValue(mCurrentUser.getUid());
+                            newPost.child("timestamp").setValue(timestamp);
                             newPost.child("username").setValue(dataSnapshot.child("name").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
