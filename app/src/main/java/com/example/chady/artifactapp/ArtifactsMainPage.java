@@ -44,7 +44,8 @@ public class ArtifactsMainPage extends AppCompatActivity {
         mArtifactList.setLayoutManager(new LinearLayoutManager(this));
         // finds reference in database called Artifacts
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Artifacts");
-        mQuery = mDatabase;
+        //sorted by default to newest
+        mQuery = mDatabase.orderByChild("timestamp");
        // mDatabaseOrdered = mDatabase;
         mAuth = FirebaseAuth.getInstance();
 
@@ -60,14 +61,17 @@ public class ArtifactsMainPage extends AppCompatActivity {
 
 
             }
-            //sort by timeStamp
-            else if(sortKeyTest == 2){
+            //sort by oldest
+            else if(sortKeyTest == 4){
                 //mDatabase = FirebaseDatabase.getInstance().getReference().child("Artifacts").orderByChild("toolType");
-                mQuery = mDatabase.orderByChild("timestamp");
+                mQuery = mDatabase;
 
             }
             else if(sortKeyTest == 3) {
                 mQuery = mDatabase.orderByChild("price");
+            }
+            else if(sortKeyTest == 2) {
+                mQuery = mDatabase.orderByChild("timestamp");
             }
 
 
@@ -217,7 +221,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
 
             Intent sortRefreshIntent = new Intent(ArtifactsMainPage.this, ArtifactsMainPage.class);
             finish();
-            sortRefreshIntent.putExtra("sortKey",2);
+            //sortRefreshIntent.putExtra("sortKey",2);
             startActivity(sortRefreshIntent);
 
         }
@@ -226,7 +230,7 @@ public class ArtifactsMainPage extends AppCompatActivity {
 
             Intent sortRefreshIntent = new Intent(ArtifactsMainPage.this, ArtifactsMainPage.class);
             finish();
-            //sortRefreshIntent.putExtra("sortKey",false);
+            sortRefreshIntent.putExtra("sortKey",4);
             startActivity(sortRefreshIntent);
 
         }
