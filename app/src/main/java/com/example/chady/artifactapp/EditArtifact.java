@@ -136,9 +136,6 @@ public class EditArtifact extends AppCompatActivity {
                     spinner.setSelection(testArray.indexOf(post_tooltype));
 
                     //editPrice.setText(cost);
-
-
-
                 }
 
                 @Override
@@ -147,19 +144,12 @@ public class EditArtifact extends AppCompatActivity {
                 }
             });
 
-            //databaseReference.child(post_key).removeValue();
-
         }
-
-
-
     }
 
 
     public void imageButtonClicked (View view)
     {
-
-
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent,GALLERY_REQUEST);

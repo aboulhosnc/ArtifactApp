@@ -209,8 +209,6 @@ public class AddArtifact extends AppCompatActivity {
                                 newPost.child("location").setValue(locationValue);
                             }
 
-
-
                             newPost.child("title").setValue(titleValue);
                             newPost.child("image").setValue(downloadurl.toString());
 
