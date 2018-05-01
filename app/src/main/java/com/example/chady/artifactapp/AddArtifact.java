@@ -174,11 +174,13 @@ public class AddArtifact extends AppCompatActivity {
             Toast.makeText(AddArtifact.this,"Artifact Name required",Toast.LENGTH_LONG).show();
             return;
         }
-        if( imageButton.getDrawable() == null)
+
+        if( !imageButton.isPressed())
         {
             Toast.makeText(AddArtifact.this,"Image required",Toast.LENGTH_LONG).show();
             return;
         }
+
 
 
         if(!TextUtils.isEmpty(titleValue)  ){
@@ -219,6 +221,7 @@ public class AddArtifact extends AppCompatActivity {
                             else {
                                 newPost.child("location").setValue(locationValue);
                             }
+
 
 
                             newPost.child("title").setValue(titleValue);

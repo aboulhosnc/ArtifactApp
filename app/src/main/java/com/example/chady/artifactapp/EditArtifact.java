@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -125,6 +126,8 @@ public class EditArtifact extends AppCompatActivity {
                     editDesc.setText(post_desc);
                     editLocation.setText(post_location);
                     editPrice.setText(cost);
+                    imageButton.setBackgroundResource(0);
+                    Picasso.get().load(post_image).into(imageButton);
                     //editPrice.setText(cost);
 
 
@@ -208,7 +211,8 @@ public class EditArtifact extends AppCompatActivity {
             Toast.makeText(EditArtifact.this,"Artifact Name required",Toast.LENGTH_LONG).show();
             return;
         }
-        if( imageButton.getDrawable() == null)
+
+        if( !imageButton.isPressed())
         {
             Toast.makeText(EditArtifact.this,"Image required",Toast.LENGTH_LONG).show();
             return;
