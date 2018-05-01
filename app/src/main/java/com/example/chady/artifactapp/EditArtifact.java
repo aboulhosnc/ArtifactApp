@@ -31,6 +31,10 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class EditArtifact extends AppCompatActivity {
 
     private static final int GALLERY_REQUEST = 2;
@@ -86,10 +90,10 @@ public class EditArtifact extends AppCompatActivity {
 
         // drop down list for Tool Types
         spinner = (Spinner)findViewById(R.id.spinner);
-
         adapter = ArrayAdapter.createFromResource(this,R.array.tool_types,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -121,6 +125,7 @@ public class EditArtifact extends AppCompatActivity {
                     String post_image = (String) dataSnapshot.child("image").getValue();
                     String post_uid = (String) dataSnapshot.child("uid").getValue();
                     String post_username = (String) dataSnapshot.child("username").getValue();
+                    List<String> testArray = Arrays.asList(getResources().getStringArray(R.array.tool_types));
 
                     editArtifactName.setText(post_name);
                     editDesc.setText(post_desc);
@@ -128,6 +133,8 @@ public class EditArtifact extends AppCompatActivity {
                     editPrice.setText(cost);
                     imageButton.setBackgroundResource(0);
                     Picasso.get().load(post_image).into(imageButton);
+                    spinner.setSelection(testArray.indexOf(post_tooltype));
+
                     //editPrice.setText(cost);
 
 

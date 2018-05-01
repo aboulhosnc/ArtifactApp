@@ -90,9 +90,11 @@ public class ArtifactViewPage extends AppCompatActivity {
                 singlePostArtifactToolType.setText(post_tooltype);
                 singlePostArtifactUsername.setText(post_username);
 
+
                 //Test for postkey
                // singlePostKey.setText(post_key);
 
+                // get image from  database
                 Picasso.get().load(post_image).into(singlePostArtifactImage);
 
                 // only show buttons visible if user created post
